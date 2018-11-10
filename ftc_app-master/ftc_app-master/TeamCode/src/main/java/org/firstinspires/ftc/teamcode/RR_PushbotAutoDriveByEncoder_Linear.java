@@ -115,6 +115,7 @@ public class RR_PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
 
         sleep(1000);     // pause for servos to move
 
+
         telemetry.addData("Path", "Complete");
         telemetry.update();
     }
