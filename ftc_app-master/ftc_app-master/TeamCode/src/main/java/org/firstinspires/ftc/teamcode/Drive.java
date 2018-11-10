@@ -34,7 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.HardwareJohn;
+import org.firstinspires.ftc.teamcode.RR_Hardware;
 
 /**
  * This OpMode uses the common Pushbot hardware class to define the devices on the robot.
@@ -54,8 +54,7 @@ import org.firstinspires.ftc.teamcode.HardwareJohn;
 public class Drive extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareJohn    robot  = new HardwareJohn();
-
+    RR_Hardware   robot  = new RR_Hardware();
 
     @Override
     public void runOpMode() {

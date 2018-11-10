@@ -30,9 +30,12 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-//import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 
 /**
  * This is NOT an opmode.
@@ -50,13 +53,17 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class HardwareJohn
+public class RR_Hardware
 {
     /* Public OpMode members. */
     public DcMotor  leftDrive   = null;
     public DcMotor  rightDrive  = null;
     public DcMotor  spindle     = null;
     public DcMotor  arm         = null;
+
+    public DistanceSensor distanceSensor;
+    public ColorSensor colorSensor;
+    public BNO055IMU imu;
    // public DcMotor  leftArm     = null;
     //public Servo    leftClaw    = null;
     //public Servo    rightClaw   = null;
@@ -69,7 +76,7 @@ public class HardwareJohn
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public HardwareJohn(){
+    public RR_Hardware(){
 
     }
 
@@ -83,6 +90,8 @@ public class HardwareJohn
         rightDrive = hwMap.get(DcMotor.class, "rightDrive");
         spindle    = hwMap.get(DcMotor.class, "spindle");
         arm        = hwMap.get(DcMotor.class, "arm");
+        distanceSensor = hwMap.get(DistanceSensor.class, "distanceSensor");
+        colorSensor = hwMap.get(ColorSensor.class, "colorSensor");
       //  leftArm    = hwMap.get(DcMotor.class, "left_arm");
         leftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rightDrive.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
