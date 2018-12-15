@@ -36,7 +36,6 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.hardware.bosch.BNO055IMU;
-
 /**
  * This is NOT an opmode.
  *
@@ -60,6 +59,7 @@ public class RR_Hardware
     public DcMotor  rightDrive  = null;
     public DcMotor  spindle     = null;
     public DcMotor  arm         = null;
+    public Servo    marker      = null;
 
     public DistanceSensor distanceSensor;
     public ColorSensor colorSensor;
@@ -90,6 +90,7 @@ public class RR_Hardware
         rightDrive = hwMap.get(DcMotor.class, "rightDrive");
         spindle    = hwMap.get(DcMotor.class, "spindle");
         arm        = hwMap.get(DcMotor.class, "arm");
+        marker     = hwMap.get(Servo.class, "marker");
         distanceSensor = hwMap.get(DistanceSensor.class, "distanceSensor");
         colorSensor = hwMap.get(ColorSensor.class, "colorSensor");
       //  leftArm    = hwMap.get(DcMotor.class, "left_arm");

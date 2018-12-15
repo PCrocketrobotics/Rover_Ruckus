@@ -29,9 +29,9 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.RR_Hardware;
@@ -64,7 +64,7 @@ public class Drive extends LinearOpMode {
         double turn;
         double max;
         double armPower;
-
+        double spindalpower;
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
          */
@@ -86,9 +86,9 @@ public class Drive extends LinearOpMode {
             // Run wheels in POV mode (note: The joystick goes negative when pushed forwards, so negate it)
             // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and right.
             // This way it's also easy to just drive straight, or just turn.
-            drive = -gamepad1.left_stick_y;
-            turn  =  gamepad1.left_stick_x;
-
+            drive = gamepad1.right_stick_y;
+            turn  = -gamepad1.left_stick_x;
+            robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             // Combine drive and turn for blended motion.
             left  = drive + turn;
             right = drive - turn;
@@ -107,16 +107,21 @@ public class Drive extends LinearOpMode {
 
 
             // Send telemetry message to signify robot running;
-            telemetry.addData("left",  "%.2f", left);
-            telemetry.addData("right", "%.2f", right);
-            telemetry.update();
+
 
 
             // Set arm power to gamepad 2 left stick y
-            armPower = gamepad2.left_stick_y;
+            armPower = gamepad2.right_stick_y;
             robot.arm.setPower(armPower);
 
+            spindalpower = gamepad2.left_stick_y;
+            robot.spindle.setPower(spindalpower);
+            // Send telemetry message to signify robot running;
+            telemetry.addData("left",  "%.2f", left);
+            telemetry.addData("right", "%.2f", right);
 
+            telemetry.addData("arm",  "%.2f", armPower);
+            telemetry.update();
             // PROGRAM ENDS HERE -------------------------------------------------------------------------------------
         }
     }
