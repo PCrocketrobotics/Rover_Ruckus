@@ -64,7 +64,10 @@ public class Drive extends LinearOpMode {
         double turn;
         double max;
         double armPower;
-        double spindalpower;
+        double spindleSpeed = 0.1;
+        double shoulderPower;
+
+
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
          */
@@ -110,12 +113,23 @@ public class Drive extends LinearOpMode {
 
 
 
-            // Set arm power to gamepad 2 left stick y
+            // Set arm power to gamepad 2 right stick y
             armPower = gamepad2.right_stick_y;
             robot.arm.setPower(armPower);
+            /**
+            // Set shoulder power to left stick y
+            shoulderPower = gamepad2.left_stick_y;
+            robot.shoulder.setPower(shoulderPower);
+            */
+            //when the "Y" button is pressed, make the spindle spin forwards
+            if (gamepad2.y) {
+                robot.spindle.setPower(1.0);
+            }
 
-            spindalpower = gamepad2.left_stick_y;
-            robot.spindle.setPower(spindalpower);
+            //when the "A" button is pressed, make the spindle spin backwards
+            if (gamepad2.a) {
+                robot.spindle.setPower(-1.0);
+            }
             // Send telemetry message to signify robot running;
             telemetry.addData("left",  "%.2f", left);
             telemetry.addData("right", "%.2f", right);

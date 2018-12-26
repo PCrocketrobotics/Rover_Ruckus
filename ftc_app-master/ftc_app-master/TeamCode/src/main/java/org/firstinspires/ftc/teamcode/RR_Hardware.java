@@ -57,9 +57,10 @@ public class RR_Hardware
     /* Public OpMode members. */
     public DcMotor  leftDrive   = null;
     public DcMotor  rightDrive  = null;
-    public DcMotor  spindle     = null;
+    public DcMotor spindle     = null;
     public DcMotor  arm         = null;
     public Servo    marker      = null;
+    public DcMotor  shoulder    = null;
 
     public DistanceSensor distanceSensor;
     public ColorSensor colorSensor;
@@ -90,6 +91,7 @@ public class RR_Hardware
         rightDrive = hwMap.get(DcMotor.class, "rightDrive");
         spindle    = hwMap.get(DcMotor.class, "spindle");
         arm        = hwMap.get(DcMotor.class, "arm");
+        shoulder   = hwMap.get(DcMotor.class, "shoulder");
         marker     = hwMap.get(Servo.class, "marker");
         distanceSensor = hwMap.get(DistanceSensor.class, "distanceSensor");
         colorSensor = hwMap.get(ColorSensor.class, "colorSensor");
@@ -100,7 +102,7 @@ public class RR_Hardware
         // Set all motors to zero power
         leftDrive.setPower(0);
         rightDrive.setPower(0);
-        spindle.setPower(0);
+        spindle.setPower(0.0);
         arm.setPower(0);
         //leftArm.setPower(0);
 
@@ -108,7 +110,6 @@ public class RR_Hardware
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        spindle.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //leftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 

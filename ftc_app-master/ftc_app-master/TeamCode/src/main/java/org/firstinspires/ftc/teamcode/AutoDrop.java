@@ -85,11 +85,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 @Autonomous(name="Auto Drop", group="Pushbot")
 public class AutoDrop extends LinearOpMode {
 
-    //THEORETICALLY, WE SHOULD TAKE THESE OUT
-    //private DcMotor leftWheel;
-    //private DcMotor rightWheel;
-   // private DcMotor arm;
-    //UP TO HERE
+
 
 
     /* Declare OpMode members. */

@@ -171,33 +171,10 @@ public class AutoCrater extends LinearOpMode {
             encoderDrive(DRIVE_SPEED, 7.09040008623, -7.09040008623, 0, 100);
             encoderDrive(DRIVE_SPEED, -40, -40, -INCHES_7_IN_TICKS, 100);
             //reverse into crater
-            //Figure out position via pictures. Purpose is to find the orientation on the field
-
-            //Drive up within 2in of the wall
-
-            //Turn 90 deg depending on where we are
-
-            //drive to depot until color senor stops us
-
-        /*Drop marker
-        robot.marker.scaleRange(-1,1);
-        robot.marker.setDirection(Servo.Direction.REVERSE);
-        robot.marker.setPosition(1);
-        sleep(1500);     // pause for servos to move
-        robot.marker.setDirection(Servo.Direction.FORWARD);
-        robot.marker.setPosition(1);
-        sleep(1500);     // pause for servos to move
-        //reverse into crater
-        */
-
 
             // Step through each leg of the path,
             // Note: Reverse movement is obtained by setting a negative distance (not speed)
-            // S1: Forward 47 Inches with 5 Sec timeout
-            //sleep(2000);
-            //encoderDrive(TURN_SPEED,   0, 0, 1,10);  // S2: Turn Right 12 Inches with 4 Sec timeout
-            //encoderDrive(DRIVE_SPEED, 0, 0, -1,10);  // S3: Reverse 24 Inches with 4 Sec timeout
-            //sleep(5000);
+
             // Stop all motion;
             robot.leftDrive.setPower(0);
             robot.rightDrive.setPower(0);
@@ -234,7 +211,6 @@ public class AutoCrater extends LinearOpMode {
             // Determine new target position, and pass to motor controller
             newLeftTarget = robot.leftDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
             newRightTarget = robot.rightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            //newArmTarget = robot.arm.getCurrentPosition() + (int)(armInches *ARM_COUNTS_PER_INCH);
             newArmTarget = robot.arm.getCurrentPosition() + (int) (armTicks);
             robot.leftDrive.setTargetPosition(newLeftTarget);
             robot.rightDrive.setTargetPosition(newRightTarget);

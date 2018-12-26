@@ -180,25 +180,12 @@ public class AutoDepot extends LinearOpMode {
             sleep(1500);     // pause for servos to move
 
             encoderDrive(DRIVE_SPEED, 40, 40, 0, 100);
-        /*Drop marker
-        robot.marker.scaleRange(-1,1);
-        robot.marker.setDirection(Servo.Direction.REVERSE);
-        robot.marker.setPosition(1);
-        sleep(1500);     // pause for servos to move
-        robot.marker.setDirection(Servo.Direction.FORWARD);
-        robot.marker.setPosition(1);
-        sleep(1500);     // pause for servos to move
-        //reverse into crater
-        */
+
 
 
             // Step through each leg of the path,
             // Note: Reverse movement is obtained by setting a negative distance (not speed)
-            // S1: Forward 47 Inches with 5 Sec timeout
-            //sleep(2000);
-            //encoderDrive(TURN_SPEED,   0, 0, 1,10);  // S2: Turn Right 12 Inches with 4 Sec timeout
-            //encoderDrive(DRIVE_SPEED, 0, 0, -1,10);  // S3: Reverse 24 Inches with 4 Sec timeout
-            //sleep(5000);
+
             // Stop all motion;
             robot.leftDrive.setPower(0);
             robot.rightDrive.setPower(0);

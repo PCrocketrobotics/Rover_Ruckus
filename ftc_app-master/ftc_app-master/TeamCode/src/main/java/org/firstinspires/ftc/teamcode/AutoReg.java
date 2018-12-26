@@ -89,7 +89,7 @@ public class AutoReg extends LinearOpMode {
     //THEORETICALLY, WE SHOULD TAKE THESE OUT
     //private DcMotor leftWheel;
     //private DcMotor rightWheel;
-   // private DcMotor arm;
+    //private DcMotor arm;
     //UP TO HERE
 
 
@@ -137,7 +137,6 @@ public class AutoReg extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
-        //ImageCamera.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Resetting Encoders");    //
@@ -161,20 +160,15 @@ public class AutoReg extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         while (opModeIsActive() && FRESH) {
-            //sleep(1000);     // pause for servos to move
-
 
             //Drop roboto 4"
             encoderDrive(DRIVE_SPEED, 0, 0, INCHES_7_IN_TICKS, 10);
-            //encoderDrive(DRIVE_SPEED,  0,  0,  -6, 100);
             //Turn 45 deg clockwise, reverse the direction for counterclockwise
-            //encoderDrive(DRIVE_SPEED,  -12.566,  12.566,  0, 100);
             encoderDrive(DRIVE_SPEED, -7.09040008623, 7.09040008623, 0, 100);
             //RESET ARM POSITION
             encoderDrive(DRIVE_SPEED, -50.5, -50.5, -INCHES_7_IN_TICKS, 100);
             //Figure out position via pictures. Purpose is to find the orientation on the field
 
-            //Drive up within 2in of the wall
             //Drive up within 2in of the wall----------------------------------------------------------------------------------
             if (opModeIsActive()) {
                 init_Vuforia();
@@ -185,15 +179,11 @@ public class AutoReg extends LinearOpMode {
                     encoderDrive(DRIVE_SPEED, 12.7627201552, -12.7627201552, 0, 10000);
                     encoderDrive(DRIVE_SPEED, -36, -36, 0, 100);
 
-                    //Drop marker
                     robot.marker.scaleRange(-1, 1);
                     robot.marker.setDirection(Servo.Direction.REVERSE);
                     robot.marker.setPosition(-1);
-                    //sleep(1500);     // pause for servos to move
                     robot.marker.setDirection(Servo.Direction.FORWARD);
                     robot.marker.setPosition(-1);
-                    //sleep(1500);     // pause for servos to move
-                    //reverse into crater
                 }
                 if (trackableInView.equals("Red-Footprint")) {
                     telemetry.addData("Executing: ", trackableInView);
@@ -205,11 +195,8 @@ public class AutoReg extends LinearOpMode {
                     robot.marker.scaleRange(-1, 1);
                     robot.marker.setDirection(Servo.Direction.REVERSE);
                     robot.marker.setPosition(-1);
-                    //sleep(1500);     // pause for servos to move
                     robot.marker.setDirection(Servo.Direction.FORWARD);
                     robot.marker.setPosition(-1);
-                    //sleep(1500);     // pause for servos to move
-                    //reverse into crater1'
                 }
                 if (trackableInView.equals("Front-Craters")) {
                     telemetry.addData("Executing: ", trackableInView);
@@ -224,21 +211,16 @@ public class AutoReg extends LinearOpMode {
                     encoderDrive(DRIVE_SPEED, 24, 24, 0, 3000);
                 }
             }
-            //Turn 90 deg depending on where we are
-
-            //drive to depot until color senor stops us
 
             //Drop marker
             robot.marker.scaleRange(-1,1);
             robot.marker.setDirection(Servo.Direction.REVERSE);
             robot.marker.setPosition(1);
-            sleep(1500);     // pause for servos to move
+            sleep(1500);
             robot.marker.setDirection(Servo.Direction.FORWARD);
             robot.marker.setPosition(1);
-            sleep(1500);     // pause for servos to move
-            //reverse into crater
+            sleep(1500);
 
-            // Stop all motion;
             robot.leftDrive.setPower(0);
             robot.rightDrive.setPower(0);
             robot.arm.setPower(0);
@@ -274,7 +256,6 @@ public class AutoReg extends LinearOpMode {
             // Determine new target position, and pass to motor controller
             newLeftTarget = robot.leftDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
             newRightTarget = robot.rightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            //newArmTarget = robot.arm.getCurrentPosition() + (int)(armInches *ARM_COUNTS_PER_INCH);
             newArmTarget = robot.arm.getCurrentPosition() + (int) (armTicks);
             robot.leftDrive.setTargetPosition(newLeftTarget);
             robot.rightDrive.setTargetPosition(newRightTarget);
@@ -320,7 +301,6 @@ public class AutoReg extends LinearOpMode {
             robot.rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            //  sleep(250);   // optional pause after each move
         }
         // Stop all motion;
         robot.leftDrive.setPower(0);
