@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -36,6 +37,10 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
 /**
  * This is NOT an opmode.
  *
@@ -57,11 +62,12 @@ public class RR_Hardware
     /* Public OpMode members. */
     public DcMotor  leftDrive   = null;
     public DcMotor  rightDrive  = null;
-    public DcMotor spindle     = null;
-    public DcMotor  arm         = null;
+    public CRServo spindle     = null;
+    public DcMotor  vert_act         = null;
     public Servo    marker      = null;
     public DcMotor  shoulder    = null;
-
+    public DcMotor  arm_extender = null;
+    public Orientation lastAngles = new Orientation();
     public DistanceSensor distanceSensor;
     public ColorSensor colorSensor;
     public BNO055IMU imu;
@@ -86,16 +92,28 @@ public class RR_Hardware
         // Save reference to Hardware map
         hwMap = ahwMap;
 
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.mode                = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+        imu = hwMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
+
+
         // Define and Initialize Motors
-        leftDrive  = hwMap.get(DcMotor.class, "leftDrive");
-        rightDrive = hwMap.get(DcMotor.class, "rightDrive");
-        spindle    = hwMap.get(DcMotor.class, "spindle");
-        arm        = hwMap.get(DcMotor.class, "arm");
-        shoulder   = hwMap.get(DcMotor.class, "shoulder");
-        marker     = hwMap.get(Servo.class, "marker");
-        distanceSensor = hwMap.get(DistanceSensor.class, "distanceSensor");
-        colorSensor = hwMap.get(ColorSensor.class, "colorSensor");
-      //  leftArm    = hwMap.get(DcMotor.class, "left_arm");
+        leftDrive        = hwMap.get(DcMotor.class, "leftDrive");
+        rightDrive       = hwMap.get(DcMotor.class, "rightDrive");
+        spindle          = hwMap.get(CRServo.class, "spindle");
+        vert_act         = hwMap.get(DcMotor.class, "vert_act");
+        shoulder         = hwMap.get(DcMotor.class, "shoulder");
+        arm_extender     = hwMap.get(DcMotor.class, "arm_extender");
+        marker           = hwMap.get(Servo.class, "marker");
+
         leftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rightDrive.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
@@ -103,14 +121,14 @@ public class RR_Hardware
         leftDrive.setPower(0);
         rightDrive.setPower(0);
         spindle.setPower(0.0);
-        arm.setPower(0);
+        vert_act.setPower(0);
         //leftArm.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        vert_act.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //leftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize ALL installed servos.

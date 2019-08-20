@@ -48,7 +48,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  */
 
 @TeleOp(name="TeleOp: Drive", group="Pushbot")
-public class Drive extends LinearOpMode {
+public class Drive_Mecanum extends LinearOpMode {
 
     /* Declare OpMode members. */
     RR_Hardware   robot  = new RR_Hardware();

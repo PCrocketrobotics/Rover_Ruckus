@@ -100,7 +100,7 @@ public class AutoDepot extends LinearOpMode {
 
     // Drive Motors are a 40:1 Gear Ration NeverRest Motor
     static final double     COUNTS_PER_MOTOR_REV    = 1120 ;    // eg: TETRIX Motor Encoder
-    static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
+    static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
                                                       (WHEEL_DIAMETER_INCHES * 3.1415);
@@ -145,17 +145,17 @@ public class AutoDepot extends LinearOpMode {
 
         robot.leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.arm.setMode((DcMotor.RunMode.STOP_AND_RESET_ENCODER));
+        robot.vert_act.setMode((DcMotor.RunMode.STOP_AND_RESET_ENCODER));
 
         robot.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.vert_act.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0",  "Starting at %7d :%7d",
                           robot.leftDrive.getCurrentPosition(),
                           robot.rightDrive.getCurrentPosition());
-                          robot.arm.getCurrentPosition();
+                          robot.vert_act.getCurrentPosition();
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
@@ -168,8 +168,11 @@ public class AutoDepot extends LinearOpMode {
             encoderDrive(DRIVE_SPEED, 0, 0, INCHES_7_IN_TICKS, 100);
             encoderDrive(DRIVE_SPEED, -7.09040008623, 7.09040008623, 0, 100);
             encoderDrive(DRIVE_SPEED, -2, -2, 0, 100);
-            encoderDrive(DRIVE_SPEED, 6.25, -6.25, 0, 100);
-            encoderDrive(DRIVE_SPEED, -55, -55, -INCHES_7_IN_TICKS, 100);
+            encoderDrive(DRIVE_SPEED, 4, -4, 0, 100);
+            encoderDrive(DRIVE_SPEED, -50, -50, 0, 100);
+            encoderDrive(DRIVE_SPEED, -7, 7, 0, 100);
+
+
             //Drop marker
             robot.marker.scaleRange(-1,1);
             robot.marker.setDirection(Servo.Direction.REVERSE);
@@ -179,7 +182,6 @@ public class AutoDepot extends LinearOpMode {
             robot.marker.setPosition(1);
             sleep(1500);     // pause for servos to move
 
-            encoderDrive(DRIVE_SPEED, 40, 40, 0, 100);
 
 
 
@@ -189,7 +191,7 @@ public class AutoDepot extends LinearOpMode {
             // Stop all motion;
             robot.leftDrive.setPower(0);
             robot.rightDrive.setPower(0);
-            robot.arm.setPower(0);
+            robot.vert_act.setPower(0);
 
             telemetry.addData("Path", "Complete");
             telemetry.update();
@@ -198,7 +200,7 @@ public class AutoDepot extends LinearOpMode {
         // Stop all motion;
         robot.leftDrive.setPower(0);
         robot.rightDrive.setPower(0);
-        robot.arm.setPower(0);
+        robot.vert_act.setPower(0);
     }
 
     /*
@@ -223,21 +225,21 @@ public class AutoDepot extends LinearOpMode {
             newLeftTarget = robot.leftDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
             newRightTarget = robot.rightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
             //newArmTarget = robot.arm.getCurrentPosition() + (int)(armInches *ARM_COUNTS_PER_INCH);
-            newArmTarget = robot.arm.getCurrentPosition() + (int) (armTicks);
+            newArmTarget = robot.vert_act.getCurrentPosition() + (int) (armTicks);
             robot.leftDrive.setTargetPosition(newLeftTarget);
             robot.rightDrive.setTargetPosition(newRightTarget);
-            robot.arm.setTargetPosition((newArmTarget));
+            robot.vert_act.setTargetPosition((newArmTarget));
 
             // Turn On RUN_TO_POSITION
             robot.leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.arm.setMode((DcMotor.RunMode.RUN_TO_POSITION));
+            robot.vert_act.setMode((DcMotor.RunMode.RUN_TO_POSITION));
 
             // reset the timeout time and start motion.
             runtime.reset();
             robot.leftDrive.setPower(Math.abs(speed));
             robot.rightDrive.setPower(Math.abs(speed));
-            robot.arm.setPower(Math.abs(ARM_SPEED));
+            robot.vert_act.setPower(Math.abs(ARM_SPEED));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -247,7 +249,7 @@ public class AutoDepot extends LinearOpMode {
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
                    (runtime.seconds() < timeoutS) &&
-                   (robot.leftDrive.isBusy() || robot.arm.isBusy() || robot.rightDrive.isBusy())) {
+                   (robot.leftDrive.isBusy() || robot.vert_act.isBusy() || robot.rightDrive.isBusy())) {
 
                 // Display it for the driver.
                 telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
@@ -261,19 +263,19 @@ public class AutoDepot extends LinearOpMode {
             // Stop all motion;
             robot.leftDrive.setPower(0);
             robot.rightDrive.setPower(0);
-            robot.arm.setPower(0);
+            robot.vert_act.setPower(0);
 
             // Turn off RUN_TO_POSITION
             robot.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.vert_act.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             //  sleep(250);   // optional pause after each move
         }
         // Stop all motion;
         robot.leftDrive.setPower(0);
         robot.rightDrive.setPower(0);
-        robot.arm.setPower(0);
+        robot.vert_act.setPower(0);
     }
     public void init_Vuforia(){
         telemetry.addLine("Processing Camera");
